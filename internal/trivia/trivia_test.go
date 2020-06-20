@@ -19,3 +19,18 @@ func TestAPICall(t *testing.T) {
 	}
 
 }
+
+func TestProcessJSON(t *testing.T) {
+	testReply := []byte(`{"response_code":0,"results":[{"category":"Science: Computers","type":"multiple","difficulty":"medium","question":"What is the name of the default theme that is installed with Windows XP?","correct_answer":"Luna","incorrect_answers":["Neptune","Whistler","Bliss"]}]}`)
+
+	trivia, err := ProcessJSON(testReply)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if trivia.Results["category"] != "Science" {
+		t.Errorf("processJSON did not correctly convert JSON: got \"%s\" want \"Science\"",
+			trivia.Results["category"])
+	}
+
+}
