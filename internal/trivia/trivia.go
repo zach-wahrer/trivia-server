@@ -1,4 +1,4 @@
-// Package trivia interfaces with the opentdb.com API to fetch trivia
+// Package trivia interfaces with the opentdb.com API to fetch trivia and process it
 package trivia
 
 import (
