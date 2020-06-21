@@ -39,14 +39,22 @@ func TestProcessJSON(t *testing.T) {
 
 }
 
-func TestProcessQuestion(t *testing.T) {
-	data := `&quot;ProcessQuestion&quot;&#039;s purpose is to fix &#039;s and &quot;s.`
+func TestProcessQuestionWithQuotes(t *testing.T) {
+	data := `&quot;ProcessQuestion&quot;&#039;s purpose is to fix &#039;s and &quot;s?`
 
-	question, err := ProcessQuestion(data)
-	if err != nil {
-		t.Fatal(err)
+	question := ProcessQuestion(data)
+
+	if question != "\"ProcessQuestion\"'s purpose is to fix 's and \"s?" {
+		t.Errorf("ProcessQuestion did not correctly convert question: got \"%s\" want \"ProcessQuestion\"'s purpose is to fix 's and \"s?", question)
 	}
-	if question != "\"ProcessQuestion\"'s purpose is to fix 's and \"s." {
-		t.Errorf("ProcessQuestion did not correctly convert question: got \"%s\" want \"ProcessQuestion\"'s purpose is to fix 's and \"s.", question)
+}
+
+func TestProcessQuestionForTrueFalse(t *testing.T) {
+	data := `This needs true/false in front of it.`
+
+	question := ProcessQuestion(data)
+
+	if question != "(True/False) This needs true/false in front of it." {
+		t.Errorf("ProcessQuestion did not correctly convert question: got \"%s\" want \"(True/False) This needs true/false in front of it.\"", question)
 	}
 }

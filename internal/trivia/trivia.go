@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
+	"strings"
 	"unicode"
 )
 
@@ -39,10 +40,15 @@ func ProcessJSON(data []byte) (*Trivia, error) {
 		return nil, err
 	}
 	result.Data[0].Difficulty = string(unicode.ToUpper(rune(result.Data[0].Difficulty[0]))) + result.Data[0].Difficulty[1:]
-
+	result.Data[0].Question = ProcessQuestion(result.Data[0].Question)
 	return &result, nil
 }
 
-func ProcessQuestion(question string) (result string, err error) {
-	return result, err
+func ProcessQuestion(question string) (result string) {
+	result = strings.Replace(question, "&quot;", "\"", -1)
+	result = strings.Replace(result, "&#039;", "'", -1)
+	if string(result[len(result)-1]) != "?" {
+		result = "(True/False) " + result
+	}
+	return result
 }
