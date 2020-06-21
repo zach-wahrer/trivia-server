@@ -23,7 +23,7 @@ func TestAPICall(t *testing.T) {
 func TestProcessJSON(t *testing.T) {
 	data := `{"response_code":0,"results":[{"category":"Science: Computers","type":"multiple","difficulty":"medium","question":"What is the name of the default theme that is installed with Windows XP?","correct_answer":"Luna","incorrect_answers":["Neptune","Whistler","Bliss"]}]}`
 
-	trivia, err := ProcessJSON(data)
+	trivia, err := ProcessJSON([]byte(data))
 	if err != nil {
 		t.Fatal(err)
 	}
