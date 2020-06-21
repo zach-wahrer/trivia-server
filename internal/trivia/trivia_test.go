@@ -28,7 +28,7 @@ func TestProcessJSON(t *testing.T) {
 		t.Fatal(err)
 	}
 	if trivia.Data[0].Category != "Science: Computers" {
-		t.Errorf("processJSON did not correctly convert JSON: got \"%s\" want \"Science\"",
+		t.Errorf("processJSON did not correctly convert JSON: got \"%s\" want \"Science: Computers\"",
 			trivia.Data[0].Category)
 	}
 
