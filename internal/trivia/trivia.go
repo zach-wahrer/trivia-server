@@ -47,7 +47,10 @@ func ProcessJSON(data []byte) (*Trivia, error) {
 func ProcessQuestion(question string) (result string) {
 	result = strings.Replace(question, "&quot;", "\"", -1)
 	result = strings.Replace(result, "&#039;", "'", -1)
-	if string(result[len(result)-1]) != "?" {
+
+	endchar := string(result[len(result)-1])
+	lastThree := string(result[len(result)-3 : len(result)])
+	if endchar != "?" && endchar != ":" && lastThree != "..." {
 		result = "(True/False) " + result
 	}
 	return result
