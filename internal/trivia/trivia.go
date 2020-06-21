@@ -41,17 +41,26 @@ func ProcessJSON(data []byte) (*Trivia, error) {
 	}
 	result.Data[0].Difficulty = string(unicode.ToUpper(rune(result.Data[0].Difficulty[0]))) + result.Data[0].Difficulty[1:]
 	result.Data[0].Question = ProcessQuestion(result.Data[0].Question)
+	result.Data[0].CorrectAnswer = ProcessAnswer(result.Data[0].CorrectAnswer)
 	return &result, nil
 }
 
 func ProcessQuestion(question string) (result string) {
-	result = strings.Replace(question, "&quot;", "\"", -1)
-	result = strings.Replace(result, "&#039;", "'", -1)
-
+	result = FixQuoteText(question)
 	endchar := string(result[len(result)-1])
 	lastThree := string(result[len(result)-3 : len(result)])
 	if endchar != "?" && endchar != ":" && lastThree != "..." {
 		result = "(True/False) " + result
 	}
+	return result
+}
+
+func ProcessAnswer(answer string) string {
+	return FixQuoteText(answer)
+}
+
+func FixQuoteText(text string) (result string) {
+	result = strings.Replace(text, "&quot;", "\"", -1)
+	result = strings.Replace(result, "&#039;", "'", -1)
 	return result
 }
