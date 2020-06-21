@@ -15,9 +15,14 @@ func StartServer() {
 
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
 	var body string
-	data, err := trivia.GetTrivia()
+	resp, err := trivia.GetTrivia()
 	if err != nil {
-		io.WriteString(w, fmt.Sprintf("Trivia API error: %v. Please try again later.", err))
+		PrintError(w, fmt.Errorf("TriviaAPI: %s", err))
+		return
+	}
+	data, err := trivia.ProcessJSON(resp)
+	if err != nil {
+		PrintError(w, fmt.Errorf("ProcessJSON: %s", err))
 		return
 	}
 	body = fmt.Sprintf("%v", data)
@@ -28,4 +33,8 @@ func EndPointHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Header().Set("Content-Type", "application/json")
 	io.WriteString(w, `{"alive": true}`)
+}
+
+func PrintError(w http.ResponseWriter, err error) {
+	io.WriteString(w, fmt.Sprintf("Error: %v. Please try again later.", err))
 }
