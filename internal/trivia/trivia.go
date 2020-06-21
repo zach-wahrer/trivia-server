@@ -3,6 +3,7 @@ package trivia
 
 import (
 	"encoding/json"
+	"io/ioutil"
 	"net/http"
 )
 
@@ -28,10 +29,15 @@ func GetTrivia() (*Trivia, error) {
 	}
 	defer resp.Body.Close()
 
-	return new(Trivia), nil
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	return ProcessJSON(body)
 }
 
-func ProcessJSON(data string) (*Trivia, error) {
+func ProcessJSON(data []byte) (*Trivia, error) {
 	var result Trivia
 	if err := json.Unmarshal([]byte(data), &result); err != nil {
 		return nil, err
