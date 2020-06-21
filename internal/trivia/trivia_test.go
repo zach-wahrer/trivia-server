@@ -5,7 +5,12 @@ import (
 )
 
 func TestAPICall(t *testing.T) {
-	trivia, err := GetTrivia()
+	data, err := GetTrivia()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	trivia, err := ProcessJSON(data)
 	if err != nil {
 		t.Fatal(err)
 	}
