@@ -21,7 +21,7 @@ type Results struct {
 	CorrectAnswer string `json:"correct_answer"`
 }
 
-func GetTrivia() (*Trivia, error) {
+func GetTrivia() ([]byte, error) {
 	resp, err := http.Get(APIURL)
 
 	if err != nil {
@@ -29,12 +29,7 @@ func GetTrivia() (*Trivia, error) {
 	}
 	defer resp.Body.Close()
 
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, err
-	}
-
-	return ProcessJSON(body)
+	return ioutil.ReadAll(resp.Body)
 }
 
 func ProcessJSON(data []byte) (*Trivia, error) {
