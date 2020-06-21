@@ -19,8 +19,27 @@ const temp1 = `
     <strong>Difficulty:</strong> {{.Difficulty}}
     <br><br>
     <strong>Question:</strong> {{.Question}}
+
     <br><br>
-    <strong>Show answer</strong>
+
+
+    <div id="answer" style="display:none;" padding=10>
+        <h3>{{.CorrectAnswer}}</h3>
+    </div>
+    <br><br>
+
+    <button onclick="toggleAnswer()">Show Answer</button>
+
+    <script type="text/javascript">
+        function toggleAnswer() {
+            var id = document.getElementById("answer");
+            if (id.style.display === "none") {
+                id.style.display = "block";
+            } else {
+                id.style.display = "none";
+            }
+        }
+    </script>
 </body>
 </html>
     `
