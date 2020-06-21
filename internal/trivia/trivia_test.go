@@ -38,3 +38,15 @@ func TestProcessJSON(t *testing.T) {
 	}
 
 }
+
+func TestProcessQuestion(t *testing.T) {
+	data := `&quot;ProcessQuestion&quot;&#039;s purpose is to fix &#039;s and &quot;s.`
+
+	question, err := ProcessQuestion(data)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if question != "\"ProcessQuestion\"'s purpose is to fix 's and \"s." {
+		t.Errorf("ProcessQuestion did not correctly convert question: got \"%s\" want \"ProcessQuestion\"'s purpose is to fix 's and \"s.", question)
+	}
+}

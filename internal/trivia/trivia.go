@@ -42,3 +42,7 @@ func ProcessJSON(data []byte) (*Trivia, error) {
 
 	return &result, nil
 }
+
+func ProcessQuestion(question string) (result string, err error) {
+	return result, err
+}
