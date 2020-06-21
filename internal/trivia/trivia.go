@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
+	"unicode"
 )
 
 const APIURL = "https://opentdb.com/api.php?amount=1"
@@ -37,6 +38,7 @@ func ProcessJSON(data []byte) (*Trivia, error) {
 	if err := json.Unmarshal([]byte(data), &result); err != nil {
 		return nil, err
 	}
+	result.Data[0].Difficulty = string(unicode.ToUpper(rune(result.Data[0].Difficulty[0]))) + result.Data[0].Difficulty[1:]
 
 	return &result, nil
 }
