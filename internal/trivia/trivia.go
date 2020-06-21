@@ -9,16 +9,15 @@ import (
 const APIURL = "https://opentdb.com/api.php?amount=1"
 
 type Trivia struct {
-	ResponseCode int
-	Test         string
-	// Results
+	ResponseCode int       `json:"response_code"`
+	Data         []Results `json:"results"`
 }
 
 type Results struct {
 	Category      string
 	Difficulty    string
 	Question      string
-	CorrectAnswer string
+	CorrectAnswer string `json:"correct_answer"`
 }
 
 func GetTrivia() (*Trivia, error) {
