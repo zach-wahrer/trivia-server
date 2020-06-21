@@ -14,19 +14,22 @@ func StartServer() {
 }
 
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
-	var body string
+
 	resp, err := trivia.GetTrivia()
 	if err != nil {
 		PrintError(w, fmt.Errorf("TriviaAPI: %s", err))
 		return
 	}
+
 	data, err := trivia.ProcessJSON(resp)
 	if err != nil {
 		PrintError(w, fmt.Errorf("ProcessJSON: %s", err))
 		return
 	}
-	body = fmt.Sprintf("%v", data)
-	io.WriteString(w, body)
+
+	if err := output.Execute(w, data.Data[0]); err != nil {
+		PrintError(w, fmt.Errorf("Template: %s", err))
+	}
 }
 
 func EndPointHandler(w http.ResponseWriter, r *http.Request) {
